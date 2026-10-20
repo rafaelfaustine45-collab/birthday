@@ -920,19 +920,17 @@
       pauseMusic();
     }
 
-    blowButton.addEventListener("click", () => {
-      unlockAudio();
-      blowOutCandle();
-    });
+    blowButton.addEventListener("click", blowOutCandle);
     relightButton.addEventListener("click", relightCandle);
 
     // Web Audio API mendeteksi suara keras dari mikrofon.
     // Browser biasanya mensyaratkan HTTPS atau localhost dan izin pengguna.
     async function startMicrophone() {
-      // Buka izin audio di browser HP pada interaksi pertama ini
-      unlockAudio();
       // Matikan lagu terlebih dahulu saat bersiap meniup lilin dengan tiupan / mikrofon
       pauseMusic();
+      if (bgMusic) {
+        bgMusic.load();
+      }
 
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         micStatus.textContent = "Mikrofon tidak tersedia di browser ini. Gunakan tombol Tiup Lilin (manual).";
@@ -1008,7 +1006,7 @@
 
     // ==========================================================
     // PEMUTAR AUDIO / MUSIK (Shape of My Heart - Sting)
-    // Dioptimalkan khusus untuk HP (iOS & Android) dan Web Deploy
+    // Dioptimalkan untuk HP (iOS & Android) dan Web Deploy
     // ==========================================================
     const bgMusic = document.getElementById("bgMusic");
     const musicPlayer = document.getElementById("musicPlayer");
@@ -1018,11 +1016,8 @@
     const pauseIcon = document.getElementById("pauseIcon");
     const musicStatusText = document.getElementById("musicStatusText");
     const musicInfoBtn = document.getElementById("musicInfoBtn");
-    let isMusicPlaying = false;
-    let audioUnlocked = false;
 
     function updateMusicUI(playing) {
-      isMusicPlaying = playing;
       if (playing) {
         musicPlayer.classList.add("is-playing");
         musicDisc.classList.remove("music-disc-paused");
@@ -1040,60 +1035,44 @@
       }
     }
 
-    // Dengarkan event native audio agar tampilan UI selalu sinkron dengan status asli
+    // Sinkronisasi status UI dengan status asli audio
     if (bgMusic) {
+      bgMusic.loop = true;
       bgMusic.addEventListener("play", () => updateMusicUI(true));
+      bgMusic.addEventListener("playing", () => updateMusicUI(true));
       bgMusic.addEventListener("pause", () => updateMusicUI(false));
-      bgMusic.addEventListener("ended", () => updateMusicUI(false));
+      bgMusic.addEventListener("ended", () => {
+        bgMusic.currentTime = 0;
+        bgMusic.play().catch(() => updateMusicUI(false));
+      });
       bgMusic.addEventListener("error", (e) => {
-        console.warn("Gagal memuat file audio lokal:", e);
+        console.warn("Gagal memuat file audio:", e);
+        updateMusicUI(false);
         musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
       });
     }
-
-    // Unlocking Audio untuk Browser HP (iOS Safari & Android Chrome)
-    // Di HP, audio dilarang bersuara jika belum ada interaksi sentuhan dari pengguna.
-    // Fungsi ini "membuka kunci" izin audio pada sentuhan layar pertama.
-    function unlockAudio() {
-      if (audioUnlocked || !bgMusic) return;
-      const playPromise = bgMusic.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
-          // Begitu browser mengizinkan audio berjalan, jeda seketika dan siapkan di awal lagu
-          bgMusic.pause();
-          bgMusic.currentTime = 0;
-          audioUnlocked = true;
-          ["touchstart", "touchend", "click"].forEach((evt) => {
-            document.removeEventListener(evt, unlockAudio);
-          });
-        }).catch(() => {
-          // Jika masih dicegah, akan diulangi pada sentuhan berikutnya
-        });
-      }
-    }
-
-    // Pasang listener sentuhan pertama di layar HP
-    ["touchstart", "touchend", "click"].forEach((evt) => {
-      document.addEventListener(evt, unlockAudio, { passive: true });
-    });
 
     async function playMusic() {
       if (!bgMusic) return;
       try {
         bgMusic.volume = 1.0;
-        await bgMusic.play();
+        const playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+          await playPromise;
+        }
         updateMusicUI(true);
       } catch (err) {
-        console.warn("Pemutaran audio dicegah oleh browser mobile:", err);
+        console.warn("Pemutaran audio dicegah oleh browser:", err);
         updateMusicUI(false);
         musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
       }
     }
 
     function pauseMusic() {
-      if (bgMusic) {
-        try { bgMusic.pause(); } catch (e) { }
-      }
+      if (!bgMusic) return;
+      try {
+        bgMusic.pause();
+      } catch (e) {}
       updateMusicUI(false);
     }
 
@@ -1106,22 +1085,21 @@
       }
     }
 
+    // Klik tombol play / pause
     musicToggleBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      unlockAudio();
       toggleMusic();
     });
 
+    // Klik judul / info musik
     musicInfoBtn.addEventListener("click", (e) => {
       e.stopPropagation();
-      unlockAudio();
       toggleMusic();
     });
 
-    // Sentuh widget pemutar musik di mana saja pada layar HP untuk toggle
+    // Sentuh area widget pemutar musik di mana saja pada layar HP
     musicPlayer.addEventListener("click", (e) => {
       if (e.target !== musicToggleBtn && !musicToggleBtn.contains(e.target)) {
-        unlockAudio();
         toggleMusic();
       }
     });
