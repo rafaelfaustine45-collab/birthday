@@ -636,7 +636,7 @@
 
   <!-- Widget Pemutar Musik Mengambang Lucu -->
   <aside id="musicPlayer"
-    class="fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-full border border-pink-200/90 bg-[#FFFDF9]/95 px-3.5 py-2.5 shadow-[0_10px_30px_rgba(255,158,181,0.35)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_14px_38px_rgba(255,143,163,0.45)] sm:px-4 sm:py-3">
+    class="fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-full border border-pink-200/90 bg-[#FFFDF9]/95 px-3.5 py-2.5 shadow-[0_10px_30px_rgba(255,158,181,0.35)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_14px_38px_rgba(255,143,163,0.45)] sm:px-4 sm:py-3 cursor-pointer select-none">
     <!-- Ikon Piringan Hitam Vinyl dengan Hiasan Hati -->
     <div
       class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#2d1b22] to-[#4a2e36] p-1 shadow-sm sm:h-11 sm:w-11">
@@ -681,18 +681,10 @@
     </button>
   </aside>
 
-  <!-- Background Player (Stream Langsung Lagu Shape of My Heart) -->
-  <div
-    style="position:fixed;bottom:-999px;right:-999px;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden;">
-    <div id="ytPlayer"></div>
-  </div>
-
-  <!-- Elemen Audio Stream Fallback -->
-  <audio id="bgMusic" loop preload="auto">
-    <source src="https://archive.org/download/oldbutgold/117.%20Sting%20-%20Shape%20Of%20My%20Heart.mp3"
-      type="audio/mpeg">
+  <!-- Elemen Audio Utama (File shape-of-my-heart.mp3 lokal langsung, dioptimalkan untuk HP & Deploy) -->
+  <audio id="bgMusic" preload="auto" loop playsinline webkit-playsinline>
     <source src="shape-of-my-heart.mp3" type="audio/mpeg">
-    <source src="audio.mp3" type="audio/mpeg">
+    <source src="./shape-of-my-heart.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -928,12 +920,17 @@
       pauseMusic();
     }
 
-    blowButton.addEventListener("click", blowOutCandle);
+    blowButton.addEventListener("click", () => {
+      unlockAudio();
+      blowOutCandle();
+    });
     relightButton.addEventListener("click", relightCandle);
 
     // Web Audio API mendeteksi suara keras dari mikrofon.
     // Browser biasanya mensyaratkan HTTPS atau localhost dan izin pengguna.
     async function startMicrophone() {
+      // Buka izin audio di browser HP pada interaksi pertama ini
+      unlockAudio();
       // Matikan lagu terlebih dahulu saat bersiap meniup lilin dengan tiupan / mikrofon
       pauseMusic();
 
@@ -1011,7 +1008,7 @@
 
     // ==========================================================
     // PEMUTAR AUDIO / MUSIK (Shape of My Heart - Sting)
-    // Otomatis streaming langsung dari sumber online tanpa input manual
+    // Dioptimalkan khusus untuk HP (iOS & Android) dan Web Deploy
     // ==========================================================
     const bgMusic = document.getElementById("bgMusic");
     const musicPlayer = document.getElementById("musicPlayer");
@@ -1022,46 +1019,7 @@
     const musicStatusText = document.getElementById("musicStatusText");
     const musicInfoBtn = document.getElementById("musicInfoBtn");
     let isMusicPlaying = false;
-    let ytPlayer = null;
-    let ytReady = false;
-
-    // Muat YouTube Iframe API untuk streaming lagu Shape of My Heart
-    const ytScript = document.createElement("script");
-    ytScript.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(ytScript);
-
-    window.onYouTubeIframeAPIReady = function () {
-      ytPlayer = new YT.Player("ytPlayer", {
-        height: "100",
-        width: "100",
-        videoId: "V1Pl8CzNzCw", // Sting - Shape of My Heart
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          loop: 1,
-          playlist: "V1Pl8CzNzCw",
-          modestbranding: 1,
-          playsinline: 1,
-          rel: 0
-        },
-        events: {
-          onReady: () => {
-            ytReady = true;
-          },
-          onStateChange: (event) => {
-            if (event.data === YT.PlayerState.PLAYING) {
-              updateMusicUI(true);
-            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
-              if (!bgMusic || bgMusic.paused) {
-                updateMusicUI(false);
-              }
-            }
-          }
-        }
-      });
-    };
+    let audioUnlocked = false;
 
     function updateMusicUI(playing) {
       isMusicPlaying = playing;
@@ -1082,58 +1040,90 @@
       }
     }
 
+    // Dengarkan event native audio agar tampilan UI selalu sinkron dengan status asli
+    if (bgMusic) {
+      bgMusic.addEventListener("play", () => updateMusicUI(true));
+      bgMusic.addEventListener("pause", () => updateMusicUI(false));
+      bgMusic.addEventListener("ended", () => updateMusicUI(false));
+      bgMusic.addEventListener("error", (e) => {
+        console.warn("Gagal memuat file audio lokal:", e);
+        musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
+      });
+    }
+
+    // Unlocking Audio untuk Browser HP (iOS Safari & Android Chrome)
+    // Di HP, audio dilarang bersuara jika belum ada interaksi sentuhan dari pengguna.
+    // Fungsi ini "membuka kunci" izin audio pada sentuhan layar pertama.
+    function unlockAudio() {
+      if (audioUnlocked || !bgMusic) return;
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          // Begitu browser mengizinkan audio berjalan, jeda seketika dan siapkan di awal lagu
+          bgMusic.pause();
+          bgMusic.currentTime = 0;
+          audioUnlocked = true;
+          ["touchstart", "touchend", "click"].forEach((evt) => {
+            document.removeEventListener(evt, unlockAudio);
+          });
+        }).catch(() => {
+          // Jika masih dicegah, akan diulangi pada sentuhan berikutnya
+        });
+      }
+    }
+
+    // Pasang listener sentuhan pertama di layar HP
+    ["touchstart", "touchend", "click"].forEach((evt) => {
+      document.addEventListener(evt, unlockAudio, { passive: true });
+    });
+
     async function playMusic() {
-      // 1. Coba putar dari audio stream online / lokal terlebih dahulu
-      if (bgMusic) {
-        try {
-          await bgMusic.play();
-          updateMusicUI(true);
-          return;
-        } catch (e) {
-          // Lanjut ke YouTube stream jika audio tag dicegah browser
-        }
+      if (!bgMusic) return;
+      try {
+        bgMusic.volume = 1.0;
+        await bgMusic.play();
+        updateMusicUI(true);
+      } catch (err) {
+        console.warn("Pemutaran audio dicegah oleh browser mobile:", err);
+        updateMusicUI(false);
+        musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
       }
-
-      // 2. Putar langsung dari stream YouTube
-      if (ytPlayer && ytReady && typeof ytPlayer.playVideo === "function") {
-        try {
-          ytPlayer.playVideo();
-          updateMusicUI(true);
-          return;
-        } catch (e) {
-          console.log("YouTube stream error:", e);
-        }
-      }
-
-      updateMusicUI(true);
     }
 
     function pauseMusic() {
       if (bgMusic) {
         try { bgMusic.pause(); } catch (e) { }
       }
-      if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === "function") {
-        try { ytPlayer.pauseVideo(); } catch (e) { }
-      }
       updateMusicUI(false);
     }
 
     function toggleMusic() {
-      if (isMusicPlaying) {
-        pauseMusic();
-      } else {
+      if (!bgMusic) return;
+      if (bgMusic.paused) {
         playMusic();
+      } else {
+        pauseMusic();
       }
     }
 
     musicToggleBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      unlockAudio();
       toggleMusic();
     });
 
     musicInfoBtn.addEventListener("click", (e) => {
       e.stopPropagation();
+      unlockAudio();
       toggleMusic();
+    });
+
+    // Sentuh widget pemutar musik di mana saja pada layar HP untuk toggle
+    musicPlayer.addEventListener("click", (e) => {
+      if (e.target !== musicToggleBtn && !musicToggleBtn.contains(e.target)) {
+        unlockAudio();
+        toggleMusic();
+      }
     });
   </script>
 </body>
