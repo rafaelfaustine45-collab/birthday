@@ -900,9 +900,6 @@
       relightButton.classList.remove("hidden");
       micStatus.textContent = "Lilin sudah padam. Semoga semua harapan baikmu menemukan jalannya. ♡";
 
-      // Putar lagu Shape of My Heart otomatis tepat saat lilin padam
-      playMusic();
-
       // Animasi perayaan kembang api confetti & emoji super meriah!
       triggerGrandCelebration();
 
@@ -916,8 +913,6 @@
       wishMessage.classList.add("hidden");
       relightButton.classList.add("hidden");
       micStatus.textContent = "Kamu bisa memakai mikrofon atau tombol manual.";
-      // Jeda lagu jika lilin dinyalakan kembali untuk ditiup lagi
-      pauseMusic();
     }
 
     blowButton.addEventListener("click", blowOutCandle);
@@ -926,11 +921,6 @@
     // Web Audio API mendeteksi suara keras dari mikrofon.
     // Browser biasanya mensyaratkan HTTPS atau localhost dan izin pengguna.
     async function startMicrophone() {
-      // Matikan lagu terlebih dahulu saat bersiap meniup lilin dengan tiupan / mikrofon
-      pauseMusic();
-      if (bgMusic) {
-        bgMusic.load();
-      }
 
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         micStatus.textContent = "Mikrofon tidak tersedia di browser ini. Gunakan tombol Tiup Lilin (manual).";
