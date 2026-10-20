@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8f2eb" />
+  <title>Untuk Hari Istimewamu ♡</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Elegant typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F8F3EC',
+            paper: '#FFFDF9',
+            blush: '#E8C9C5',
+            rose: '#B87578',
+            ink: '#30272A',
+            muted: '#796D6D',
+            sage: '#A7B29A',
+            sand: '#E8DED0'
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['Inter', 'sans-serif']
+          },
+          boxShadow: {
+            soft: '0 18px 50px rgba(74, 48, 42, .10)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Sedikit CSS khusus untuk ilustrasi dan animasi yang tidak praktis dibuat dengan utility class. */
+    :root {
+      color-scheme: light;
+    }
+
+    body {
+      background: #F8F3EC;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero-enter {
+      animation: heroEnter 1.15s cubic-bezier(.2, .7, .2, 1) both;
+    }
+
+    @keyframes heroEnter {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .candle-flame {
+      transform-origin: 50% 100%;
+      animation: flicker .72s ease-in-out infinite alternate;
+    }
+
+    @keyframes flicker {
+      from {
+        transform: rotate(-5deg) scale(.96);
+      }
+
+      to {
+        transform: rotate(5deg) scale(1.05);
+      }
+    }
+
+    .flame-off {
+      opacity: 0 !important;
+      transform: scale(.2) translateY(6px) !important;
+    }
+
+    .cake-scene {
+      transition: filter 1.1s ease, background-color 1.1s ease, box-shadow 1.1s ease;
+    }
+
+    .cake-scene.is-wish-made {
+      filter: brightness(1.02);
+      background: linear-gradient(180deg, #ffeef2 0%, #f7deda 100%);
+      box-shadow: inset 0 0 80px rgba(255, 182, 193, 0.4);
+    }
+
+    /* Animasi Pop-in Banner Perayaan & Emoji Melayang */
+    @keyframes celebrationPop {
+      0% {
+        transform: scale(0.6) translateY(20px);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.08) translateY(-4px);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .celebration-pop {
+      animation: celebrationPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .party-emoji-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 99999;
+      user-select: none;
+      animation: floatPartyEmoji 3.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes floatPartyEmoji {
+      0% {
+        transform: translateY(0) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 1;
+        transform: translateY(-40px) scale(1.2) rotate(12deg);
+      }
+
+      80% {
+        opacity: 0.95;
+      }
+
+      100% {
+        transform: translateY(-420px) scale(0.85) rotate(-18deg);
+        opacity: 0;
+      }
+    }
+
+    /* ==========================================================
+       BINGKAI FOTO PINK LUCU & HIASAN LOVE + BUNGA
+       ========================================================== */
+    .cute-photo-frame {
+      position: relative;
+      background: linear-gradient(155deg, #ffffff 0%, #fff4f7 45%, #ffe6ec 100%);
+      border: 2.5px solid #ffccd7;
+      border-radius: 24px;
+      padding: 10px 10px 14px 10px;
+      box-shadow: 0 12px 28px -6px rgba(255, 158, 181, 0.35), 0 4px 12px rgba(184, 117, 120, 0.08);
+      transition: all .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .cute-photo-frame:hover {
+      transform: translateY(-7px) scale(1.02);
+      border-color: #ff9ebb;
+      box-shadow: 0 20px 42px -6px rgba(255, 143, 163, 0.5), 0 0 22px rgba(255, 192, 203, 0.4);
+    }
+
+    .photo-inner-wrapper {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 2px dashed #ffb8c9;
+      background: #ffeef2;
+      box-shadow: inset 0 2px 8px rgba(255, 182, 193, 0.28);
+    }
+
+    .cute-photo-frame img {
+      transition: transform .65s cubic-bezier(.2, .7, .2, 1), filter .65s ease;
+    }
+
+    .cute-photo-frame:hover img {
+      transform: scale(1.06);
+      filter: saturate(1.08) brightness(1.02);
+    }
+
+    /* Animasi Stiker Mengambang & Berdenyut Lucu */
+    @keyframes gentleFloat {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-4px) rotate(4deg);
+      }
+
+      100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+    }
+
+    @keyframes gentlePulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    .sticker-float {
+      animation: gentleFloat 3.8s ease-in-out infinite;
+    }
+
+    .sticker-pulse {
+      animation: gentlePulse 2.4s ease-in-out infinite;
+    }
+
+    /* ==========================================================
+       FLOATING AUDIO / MUSIC PLAYER WIDGET
+       ========================================================== */
+    @keyframes spinVinyl {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .music-disc-spinning {
+      animation: spinVinyl 6s linear infinite;
+    }
+
+    .music-disc-paused {
+      animation: spinVinyl 6s linear infinite;
+      animation-play-state: paused;
+    }
+
+    @keyframes soundWave {
+
+      0%,
+      100% {
+        height: 4px;
+      }
+
+      50% {
+        height: 16px;
+      }
+    }
+
+    .sound-bar {
+      width: 3px;
+      border-radius: 9999px;
+      background: #b87578;
+      transition: height .2s ease;
+    }
+
+    .is-playing .sound-bar:nth-child(1) {
+      animation: soundWave .75s ease-in-out infinite;
+    }
+
+    .is-playing .sound-bar:nth-child(2) {
+      animation: soundWave .55s ease-in-out infinite .18s;
+    }
+
+    .is-playing .sound-bar:nth-child(3) {
+      animation: soundWave .85s ease-in-out infinite .35s;
+    }
+
+    .is-playing .sound-bar:nth-child(4) {
+      animation: soundWave .65s ease-in-out infinite .1s;
+    }
+
+    .envelope {
+      position: relative;
+      width: min(100%, 330px);
+      height: 220px;
+      perspective: 1200px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: #ead8c3;
+      box-shadow: 0 18px 35px rgba(67, 48, 36, .14);
+    }
+
+    .envelope-paper {
+      position: absolute;
+      z-index: 2;
+      left: 6%;
+      top: 6%;
+      width: 88%;
+      height: 88%;
+      padding: 20px 18px;
+      overflow: hidden;
+      background: #fffaf1;
+      border: 1px solid #e8ddce;
+      border-radius: 8px;
+      box-shadow: 0 5px 18px rgba(70, 50, 40, .08);
+      /* Saat menutup: surat meluncur turun terlebih dahulu */
+      transition: transform 0.45s cubic-bezier(.4, 0, .2, 1) 0s, height 0.45s ease 0s, box-shadow 0.45s ease 0s;
+    }
+
+    .envelope-paper::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .envelope-paper::-webkit-scrollbar-thumb {
+      background: #e4cec4;
+      border-radius: 4px;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      z-index: 4;
+      inset: 0;
+      height: 58%;
+      background: #dfc6aa;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: 50% 0;
+      /* Saat menutup: flap baru menutup setelah surat masuk */
+      transition: transform 0.55s cubic-bezier(.4, 0, .2, 1) 0.38s, z-index 0s 0.6s;
+      filter: drop-shadow(0 3px 2px rgba(70, 50, 40, .08));
+      backface-visibility: hidden;
+    }
+
+    .envelope-front {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      background: #ead8c3;
+      clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+      border-radius: 8px;
+    }
+
+    .envelope-seal {
+      position: absolute;
+      z-index: 5;
+      left: 50%;
+      top: 56%;
+      transform: translate(-50%, -50%) scale(1);
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #b87578;
+      color: #fffaf5;
+      border: 3px solid #d7a7a5;
+      /* Saat menutup: stempel muncul kembali dengan efek bounce halus */
+      transition: opacity 0.25s ease 0.8s, transform 0.35s cubic-bezier(.34, 1.56, .64, 1) 0.8s;
+    }
+
+    /* KETIKA AMPLOP DIBUKA (.is-open) */
+    .envelope.is-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+      /* Saat membuka: flap langsung berputar naik, z-index berganti ke belakang di tengah putaran */
+      transition: transform 0.55s cubic-bezier(.4, 0, .2, 1) 0s, z-index 0s 0.28s;
+    }
+
+    .envelope.is-open .envelope-paper {
+      /* Surat dinaikkan lebih tinggi (-140px) dan tampil luas */
+      transform: translateY(-140px);
+      height: 275px;
+      z-index: 2;
+      box-shadow: 0 18px 38px rgba(70, 50, 40, .18), 0 2px 10px rgba(0, 0, 0, .05);
+      /* Saat membuka: tunggu flap terbuka sebagian lalu surat meluncur naik dengan sangat halus */
+      transition: transform 0.75s cubic-bezier(.22, 1, .36, 1) 0.35s, height 0.75s cubic-bezier(.22, 1, .36, 1) 0.35s, box-shadow 0.75s ease 0.35s;
+      overflow-y: auto;
+    }
+
+    .envelope.is-open .envelope-seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.6);
+      transition: opacity 0.2s ease 0s, transform 0.25s ease 0s;
+      pointer-events: none;
+    }
+
+    .letter-content {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease 0s, transform 0.3s ease 0s;
+    }
+
+    .envelope.is-open .letter-content {
+      opacity: 1;
+      transform: translateY(0);
+      /* Teks muncul anggun saat kertas sudah mulai naik */
+      transition: opacity 0.6s ease 0.6s, transform 0.6s cubic-bezier(.22, 1, .36, 1) 0.6s;
+    }
+
+    .heart-float {
+      animation: heartFloat 3.5s ease-in-out infinite;
+    }
+
+    @keyframes heartFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-7px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="font-sans text-ink antialiased selection:bg-blush selection:text-ink">
+  <!-- Navigation -->
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/60 bg-cream/85 backdrop-blur-lg">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 md:px-8" aria-label="Navigasi utama">
+      <a href="#beranda" class="font-display text-xl tracking-tight md:text-2xl">for your day <span
+          class="text-rose">♡</span></a>
+      <div class="hidden items-center gap-7 text-xs text-muted sm:flex">
+        <a class="transition hover:text-rose" href="#beranda">Beranda</a>
+        <a class="transition hover:text-rose" href="#kue">Tiup lilin</a>
+        <a class="transition hover:text-rose" href="#galeri">Kenangan</a>
+        <a class="transition hover:text-rose" href="#surat">Surat kecil</a>
+      </div>
+      <a href="#surat" aria-label="Menuju surat rahasia" class="heart-float text-xl text-rose">♡</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 1. HERO -->
+    <section id="beranda"
+      class="relative flex min-h-[92svh] items-center justify-center overflow-hidden px-5 pb-16 pt-28 text-center">
+      <div class="absolute inset-0" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2000&q=85" alt=""
+          class="h-full w-full object-cover opacity-25" />
+        <div class="absolute inset-0 bg-gradient-to-b from-cream/50 via-cream/75 to-cream"></div>
+      </div>
+      <div class="hero-enter relative z-10 mx-auto max-w-3xl">
+        <p class="mb-5 text-[10px] font-semibold uppercase tracking-[.35em] text-rose md:text-xs">hari yang spesial
+          untuk seseorang yang spesial</p>
+        <h1 class="font-display text-4xl leading-[1.12] tracking-tight sm:text-6xl md:text-7xl">
+          Selamat ulang tahun,<br /><span class="italic text-rose">sayang.</span>
+        </h1>
+        <p class="mx-auto mt-6 max-w-xl text-sm leading-7 text-muted sm:text-base sm:leading-8">
+          Hari ini dunia punya alasan kecil untuk merayakanmu. Semoga halaman sederhana ini bisa menjadi satu kenangan
+          manis di antara banyak hal baik yang menunggumu.
+        </p>
+        <a href="#kue"
+          class="group mt-9 inline-flex items-center gap-3 rounded-full border border-rose/30 bg-paper/70 px-6 py-3 text-xs font-medium text-ink shadow-sm transition hover:border-rose hover:bg-paper">
+          Scroll untuk mulai <span class="transition group-hover:translate-y-1" aria-hidden="true">↓</span>
+        </a>
+      </div>
+      <span class="absolute bottom-8 left-1/2 -translate-x-1/2 font-display text-2xl text-rose/70"
+        aria-hidden="true">✳</span>
+    </section>
+
+    <!-- 2. INTERACTIVE CAKE -->
+    <section id="kue" class="cake-scene overflow-hidden bg-[#f0dfdb] px-5 py-20 transition-colors md:py-28">
+      <div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-16">
+        <div class="reveal">
+          <p class="mb-4 text-[10px] font-semibold uppercase tracking-[.32em] text-rose">01 / sebuah harapan</p>
+          <h2 class="max-w-lg font-display text-3xl leading-tight sm:text-4xl md:text-5xl">Tiap lilin punya harapan,
+            hari ini giliranmu.</h2>
+          <p class="mt-5 max-w-md text-sm leading-7 text-muted">Pejamkan mata sebentar, pikirkan satu hal yang PINAA
+            harapkan, lalu tiup lilinnya. Semoga hal-hal baik menemukan jalan menuju kamu.</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <button id="micButton"
+              class="inline-flex items-center gap-2 rounded-full bg-rose px-5 py-3 text-xs font-semibold text-white shadow-sm transition hover:bg-[#a7666b] focus:outline-none focus:ring-2 focus:ring-rose/40">
+              <span aria-hidden="true">♬</span> Gunakan mikrofon
+            </button>
+            <button id="blowButton"
+              class="rounded-full border border-rose/40 bg-white/40 px-5 py-3 text-xs font-semibold text-ink transition hover:bg-white/70 focus:outline-none focus:ring-2 focus:ring-rose/30">
+              Tiup lilin (manual)
+            </button>
+          </div>
+          <p id="micStatus" class="mt-3 min-h-5 text-xs leading-5 text-muted" role="status" aria-live="polite">Kamu bisa
+            memakai mikrofon atau tombol manual. Mikrofon perlu izin browser.</p>
+          <button id="relightButton"
+            class="mt-3 hidden text-xs font-medium text-rose underline underline-offset-4">Nyalakan lilin lagi</button>
+        </div>
+
+        <div class="reveal flex min-h-[310px] items-center justify-center">
+          <div class="relative flex h-[320px] w-full max-w-md items-end justify-center pb-8">
+            <div class="absolute bottom-5 h-10 w-72 rounded-[50%] bg-[#d5b6ac]/50 blur-xl"></div>
+            <!-- Cake illustration made from HTML/CSS shapes -->
+            <div
+              class="relative z-10 h-36 w-64 rounded-b-[42px] rounded-t-[28px] border-b-[8px] border-[#dfb7a9] bg-[#fff8ec] shadow-[0_18px_25px_rgba(90,58,48,.13)]">
+              <div class="absolute -top-4 left-0 h-9 w-full rounded-[50%] border-b-2 border-[#e9c6b9] bg-[#fffaf1]">
+              </div>
+              <div class="absolute left-0 top-2 h-5 w-full overflow-hidden">
+                <div class="absolute -top-3 left-4 h-8 w-8 rounded-full bg-[#f4d4c7]"></div>
+                <div class="absolute -top-3 left-16 h-8 w-8 rounded-full bg-[#f4d4c7]"></div>
+                <div class="absolute -top-3 left-28 h-8 w-8 rounded-full bg-[#f4d4c7]"></div>
+                <div class="absolute -top-3 right-4 h-8 w-8 rounded-full bg-[#f4d4c7]"></div>
+              </div>
+              <div class="absolute -top-1 left-8 h-7 w-5 rounded-full bg-[#d9a8a5]"></div>
+              <div class="absolute -top-2 right-9 h-7 w-5 rounded-full bg-[#d9a8a5]"></div>
+              <div class="absolute inset-x-0 top-12 text-center font-display text-xl italic text-[#9f6663]">make a wish
+              </div>
+              <div class="absolute inset-x-0 top-[82px] text-center text-sm text-[#c58c82]">♡　✿　♡</div>
+              <!-- Candle and flame -->
+              <div class="absolute -top-[75px] left-1/2 z-20 h-[68px] w-3 -translate-x-1/2 rounded-t-sm bg-[#d28b8b]"
+                style="background-image: repeating-linear-gradient(135deg, transparent 0 7px, #fff0e5 7px 11px);">
+                <span id="flame"
+                  class="candle-flame absolute -top-7 left-1/2 h-7 w-4 -translate-x-1/2 rounded-[70%_30%_65%_35%] bg-[#f7b65b] shadow-[0_0_22px_8px_rgba(255,185,92,.45)] transition-all duration-500">
+                  <span class="absolute bottom-1 left-1/2 h-3 w-2 -translate-x-1/2 rounded-full bg-[#fff4c8]"></span>
+                </span>
+              </div>
+            </div>
+            <div class="absolute bottom-3 z-0 h-7 w-72 rounded-[50%] border border-[#d7bba9] bg-[#f8eadc] shadow-md">
+            </div>
+            <p class="absolute right-0 top-2 rotate-[-5deg] font-display text-sm italic text-[#9f7770] sm:right-2">make
+              a wish ♡</p>
+            <span class="absolute left-2 top-10 text-2xl text-rose/70" aria-hidden="true">✳</span>
+          </div>
+        </div>
+      </div>
+      <div id="wishMessage" class="mx-auto mt-4 hidden max-w-xl text-center celebration-pop" aria-live="polite">
+        <!-- Festive Celebration Badge -->
+        <div
+          class="inline-flex items-center gap-2 rounded-full border border-pink-300/80 bg-white/95 px-5 py-2 shadow-md backdrop-blur-sm mb-3">
+          <span class="text-xl">🎉</span>
+          <span class="font-display text-base sm:text-xl font-bold text-rose tracking-wider uppercase">
+            YAYYY! HAPPY BIRTHDAY! 🥳🎂
+          </span>
+          <span class="text-xl">✨</span>
+        </div>
+        <p class="font-display text-2xl sm:text-3xl italic text-rose font-semibold drop-shadow-sm">Semoga harapan baikmu
+          satu per satu menjadi nyata. ♡</p>
+        <p class="mt-2 text-xs sm:text-sm text-muted">Hari ini tentang kamu. Nikmati setiap detik kebahagiaan dan
+          hal-hal baik yang datang ✨💖</p>
+      </div>
+    </section>
+
+    <!-- 3. MEMORY GALLERY -->
+    <section id="galeri" class="px-5 py-20 md:py-28">
+      <div class="mx-auto max-w-6xl">
+        <div class="reveal mb-10 text-center md:mb-14">
+          <p class="mb-4 text-[10px] font-semibold uppercase tracking-[.32em] text-rose">02 / Hari Spesialmu </p>
+          <h2 class="font-display text-3xl leading-tight sm:text-4xl md:text-5xl">Si Paling Cantik.</h2>
+          <p class="mx-auto mt-4 max-w-lg text-sm leading-7 text-muted">Hanya kumpulan potret sederhana dari seseorang
+            yang paling istimewa hari ini. </p>
+          <p class="mx-auto mt-4 max-w-lg text-sm leading-7 text-muted"><b> Happy birthday!</b></p>
+        </div>
+        <!-- Ganti URL di array photos di JavaScript dengan foto kalian sendiri. -->
+        <div id="photoGrid" class="grid grid-cols-2 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 pt-3 pb-2"></div>
+      </div>
+    </section>
+
+    <!-- 4. SECRET ENVELOPE / LETTER -->
+    <section id="surat" class="overflow-hidden bg-[#eee4d6] px-5 py-20 md:py-28">
+      <div class="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-16">
+        <div class="reveal flex flex-col items-center pt-6 sm:pt-10">
+          <p class="mb-14 text-[10px] font-semibold uppercase tracking-[.32em] text-rose">03 / sesuatu untukmu</p>
+          <button id="envelopeButton" class="envelope group" aria-label="Buka surat rahasia" aria-expanded="false">
+            <span class="envelope-back"></span>
+            <span class="envelope-paper">
+              <span class="letter-content block text-left font-display text-sm leading-6 text-[#5f4d43]">
+                <span class="mb-2 block text-rose">Untukmu,</span>
+                <span>Semoga kamu selalu menemukan alasan untuk tersenyum, bahkan di hari yang terasa biasa saja.</span>
+                <span class="mt-3 block text-right italic">— dengan tulus ♡</span>
+              </span>
+            </span>
+            <span class="envelope-flap"></span>
+            <span class="envelope-front"></span>
+            <span class="envelope-seal" aria-hidden="true">♡</span>
+          </button>
+          <p id="envelopeHint" class="mt-7 text-xs text-muted">Klik amplopnya untuk membuka surat ♡</p>
+        </div>
+
+        <article class="reveal">
+          <p class="mb-4 text-[10px] font-semibold uppercase tracking-[.32em] text-rose">sebuah surat kecil</p>
+          <h2 class="font-display text-3xl leading-tight sm:text-4xl">Ada hal yang ingin kusampaikan.</h2>
+          <p class="mt-5 text-sm leading-7 text-muted">Tidak semua hal penting harus disampaikan dengan kata-kata yang
+            besar. Kadang, beberapa kalimat sederhana sudah cukup untuk mengatakan bahwa seseorang berarti.</p>
+          <div class="mt-7 rounded-2xl border border-white/70 bg-paper/65 p-6 shadow-sm sm:p-8">
+            <!-- Edit isi surat ini sesuai hubungan dan gaya bahasamu sendiri. -->
+            <div class="space-y-4 text-sm leading-7 text-[#615653]">
+              <p>Sayang,</p>
+              <p>Selamat ulang tahun. Terima kasih sudah hadir dan membawa banyak hal baik ke dalam hari-hariku. Aku
+                menghargai caramu menjadi dirimu sendiri, cerita-cerita kecil yang kamu bagi, dan waktu yang kita punya
+                bersama.</p>
+              <p>Di usia yang baru ini, aku berharap kamu selalu diberi kesehatan, ketenangan, keberanian untuk mengejar
+                hal yang kamu impikan, dan orang-orang baik yang tulus mendukungmu.</p>
+              <p>Aku tahu hidup tidak selalu mudah, jadi semoga kamu juga selalu ingat untuk beristirahat, menjaga
+                dirimu, dan tidak terlalu keras pada diri sendiri. Kamu pantas mendapat banyak hal baik, bukan hanya
+                hari ini.</p>
+              <p>Terima kasih sudah menjadi bagian dari ceritaku. Semoga kita bisa terus belajar memahami satu sama lain
+                dan membuat lebih banyak kenangan yang sederhana, tetapi berarti.</p>
+              <p class="pt-2 font-display text-lg italic text-rose">Selamat bertambah usia. Dengan sayang, selalu. ♡</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="px-5 py-7 text-center">
+    <p class="font-display text-sm italic text-muted">Dibikin dengan tulus, khusus untukmu <span
+        class="text-rose">♡</span></p>
+  </footer>
+
+  <!-- Widget Pemutar Musik Mengambang Lucu -->
+  <aside id="musicPlayer"
+    class="fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-full border border-pink-200/90 bg-[#FFFDF9]/95 px-3.5 py-2.5 shadow-[0_10px_30px_rgba(255,158,181,0.35)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_14px_38px_rgba(255,143,163,0.45)] sm:px-4 sm:py-3">
+    <!-- Ikon Piringan Hitam Vinyl dengan Hiasan Hati -->
+    <div
+      class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#2d1b22] to-[#4a2e36] p-1 shadow-sm sm:h-11 sm:w-11">
+      <div id="musicDisc"
+        class="music-disc-paused flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#1c1215]">
+        <div class="flex h-4 w-4 items-center justify-center rounded-full bg-rose text-[9px] text-white shadow-inner">
+          ♡
+        </div>
+      </div>
+      <!-- Badge Not Musik Kecil -->
+      <span
+        class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-pink-400 text-[10px] text-white shadow-xs">
+        ♪
+      </span>
+    </div>
+
+    <!-- Info Lagu -->
+    <div class="flex flex-col text-left pr-1 cursor-pointer select-none" id="musicInfoBtn">
+      <div class="flex items-center gap-1.5">
+        <span class="max-w-[130px] truncate text-xs font-semibold text-ink sm:max-w-[160px]">
+          Shape of My Heart
+        </span>
+        <!-- Animasi Bar Gelombang Suara -->
+        <div id="soundBars" class="flex h-4 items-end gap-[2px]">
+          <span class="sound-bar h-1"></span>
+          <span class="sound-bar h-2"></span>
+          <span class="sound-bar h-1.5"></span>
+          <span class="sound-bar h-1"></span>
+        </div>
+      </div>
+      <span id="musicStatusText" class="text-[10px] text-rose font-medium">
+        Sting ♡ Klik untuk putar
+      </span>
+    </div>
+
+    <!-- Tombol Putar / Jeda -->
+    <button id="musicToggleBtn"
+      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-rose to-[#d28b8b] text-white shadow-sm transition hover:scale-105 hover:brightness-105 active:scale-95"
+      aria-label="Putar atau jeda musik" title="Putar / Jeda musik">
+      <span id="playIcon" class="ml-0.5 text-xs">▶</span>
+      <span id="pauseIcon" class="hidden text-xs">❚❚</span>
+    </button>
+  </aside>
+
+  <!-- Background Player (Stream Langsung Lagu Shape of My Heart) -->
+  <div
+    style="position:fixed;bottom:-999px;right:-999px;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden;">
+    <div id="ytPlayer"></div>
+  </div>
+
+  <!-- Elemen Audio Stream Fallback -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://archive.org/download/oldbutgold/117.%20Sting%20-%20Shape%20Of%20My%20Heart.mp3"
+      type="audio/mpeg">
+    <source src="shape-of-my-heart.mp3" type="audio/mpeg">
+    <source src="audio.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // ==========================================================
+    // GALERI: ubah src dengan URL foto kalian, lalu edit caption.
+    // Kamu juga bisa memakai file lokal, misalnya "images/foto-1.jpg".
+    // ==========================================================
+    const photos = [
+      { src: "pict1.jpeg", alt: "Dua orang menikmati momen bersama" },
+      { src: "pict2.jpeg", alt: "Tangan yang saling menggenggam" },
+      { src: "pict3.jpeg", alt: "Cahaya matahari di langit senja" },
+      { src: "pict4.jpeg", alt: "Bunga berwarna lembut" },
+      { src: "pict5.jpeg", alt: "Pemandangan alam yang tenang" },
+      { src: "pict6.jpeg", alt: "Dua minuman di meja kafe" },
+      { src: "pict7.jpeg", alt: "Langit malam yang bertabur bintang" },
+      { src: "pict8.jpeg", alt: "Langit malam yang bertabur bintang" },
+    ];
+
+    const photoGrid = document.getElementById("photoGrid");
+    photos.forEach((photo, index) => {
+      const figure = document.createElement("figure");
+      figure.className = "cute-photo-frame group";
+      figure.innerHTML = `
+        <!-- Washi Tape Hiasan Lucu di Atas -->
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20 px-3.5 py-0.5 rounded-sm bg-[#ffd6df]/95 border-x border-pink-300/50 text-[10px] font-sans font-medium text-pink-700/80 shadow-xs rotate-[-1.5deg] pointer-events-none select-none tracking-wider">
+          ♡ love ♡
+        </div>
+
+        <!-- Hiasan Bunga Pink Lucu di Pojok Kiri Atas -->
+        <div class="sticker-float absolute -top-2.5 -left-2.5 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/95 border-2 border-pink-200 shadow-sm text-sm group-hover:scale-115 transition-transform duration-300 pointer-events-none select-none" title="Bunga Cinta">
+          🌸
+        </div>
+
+        <!-- Hiasan Love Pink Lucu di Pojok Kanan Atas -->
+        <div class="sticker-pulse absolute -top-2.5 -right-2.5 z-20 flex h-7 w-7 items-center justify-center rounded-full bg-white/95 border-2 border-pink-200 shadow-sm text-xs group-hover:scale-115 transition-transform duration-300 pointer-events-none select-none" title="Love">
+          💖
+        </div>
+
+        <!-- Wadah Foto Berbingkai Pink Cantik -->
+        <div class="photo-inner-wrapper aspect-[4/5] w-full">
+          <img src="${photo.src}" alt="${photo.alt || 'Foto kenangan'}" loading="lazy"
+               class="h-full w-full object-cover" />
+        </div>
+
+        <!-- Hiasan Bawah & Keterangan Foto -->
+        <figcaption class="mt-3 flex items-center justify-between px-1">
+          <div class="flex items-center gap-1.5">
+            <span class="inline-flex items-center gap-1 rounded-full bg-white/90 border border-pink-200/90 px-2.5 py-0.5 text-xs font-semibold text-rose shadow-xs">
+              <span class="text-[11px] text-pink-400">✿</span>
+              <span>0${index + 1}</span>
+              <span class="text-[10px] text-pink-400">♡</span>
+            </span>
+            ${photo.caption ? `<span class="text-xs font-sans text-muted italic ml-1">${photo.caption}</span>` : ''}
+          </div>
+          <span class="text-sm text-pink-400 group-hover:scale-125 transition-transform duration-300 pointer-events-none select-none">
+            ${index % 2 === 0 ? '🌸' : '💕'}
+          </span>
+        </figcaption>`;
+      photoGrid.appendChild(figure);
+    });
+
+    // Animasi masuk saat section terlihat di layar.
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
+
+    // Tiup lilin: tombol manual tetap bisa dipakai tanpa izin mikrofon.
+    const flame = document.getElementById("flame");
+    const cakeScene = document.querySelector(".cake-scene");
+    const wishMessage = document.getElementById("wishMessage");
+    const micButton = document.getElementById("micButton");
+    const blowButton = document.getElementById("blowButton");
+    const relightButton = document.getElementById("relightButton");
+    const micStatus = document.getElementById("micStatus");
+    let candleIsOut = false;
+    let audioContext = null;
+    let microphoneStream = null;
+    let analyser = null;
+    let micAnimationId = null;
+
+    function spawnCelebrationEmojis() {
+      const emojis = ["🎉", "🥳", "🎂", "✨", "💖", "🎈", "🌸", "💐", "🥂", "💕", "⭐"];
+      for (let i = 0; i < 22; i++) {
+        setTimeout(() => {
+          const el = document.createElement("div");
+          el.className = "party-emoji-particle text-2xl sm:text-4xl";
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          el.style.left = `${Math.random() * 88 + 6}vw`;
+          el.style.bottom = `${Math.random() * 25 + 15}vh`;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 3600);
+        }, i * 110);
+      }
+    }
+
+    function triggerGrandCelebration() {
+      if (typeof confetti !== "function") return;
+
+      const vibrantColors = ["#FF1493", "#FF69B4", "#FFD700", "#FF4500", "#BA55D3", "#00E5FF", "#FFFDF9", "#FF6B8B"];
+
+      // 1. Ledakan Dahsyat Pertama Tepat di Atas Kue
+      confetti({
+        particleCount: 160,
+        spread: 100,
+        startVelocity: 48,
+        gravity: 0.8,
+        scalar: 1.15,
+        origin: { x: 0.5, y: 0.55 },
+        colors: vibrantColors,
+        zIndex: 9999
+      });
+
+      // 2. Meriam Confetti Sisi Kiri & Kanan (Stadium Cannons)
+      setTimeout(() => {
+        confetti({
+          particleCount: 100,
+          angle: 60,
+          spread: 75,
+          startVelocity: 60,
+          gravity: 0.85,
+          origin: { x: 0, y: 0.85 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+      }, 200);
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 100,
+          angle: 120,
+          spread: 75,
+          startVelocity: 60,
+          gravity: 0.85,
+          origin: { x: 1, y: 0.85 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+      }, 400);
+
+      // 3. Meriam Silang Kiri & Kanan Bersamaan
+      setTimeout(() => {
+        confetti({
+          particleCount: 90,
+          angle: 55,
+          spread: 80,
+          startVelocity: 65,
+          origin: { x: 0, y: 0.8 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+        confetti({
+          particleCount: 90,
+          angle: 125,
+          spread: 80,
+          startVelocity: 65,
+          origin: { x: 1, y: 0.8 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+      }, 750);
+
+      // 4. Kembang Api Hujan Confetti Beruntun Selama 3.5 Detik
+      const duration = 3.5 * 1000;
+      const animationEnd = Date.now() + duration;
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        const particleCount = 40 * (timeLeft / duration);
+
+        confetti({
+          particleCount: Math.floor(particleCount),
+          startVelocity: 35,
+          spread: 360,
+          ticks: 60,
+          origin: { x: randomInRange(0.15, 0.45), y: Math.random() - 0.2 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+        confetti({
+          particleCount: Math.floor(particleCount),
+          startVelocity: 35,
+          spread: 360,
+          ticks: 60,
+          origin: { x: randomInRange(0.55, 0.85), y: Math.random() - 0.2 },
+          colors: vibrantColors,
+          zIndex: 9999
+        });
+      }, 250);
+
+      // 5. Munculkan balon & emoji pesta melayang ke atas
+      spawnCelebrationEmojis();
+    }
+
+    function blowOutCandle() {
+      if (candleIsOut) return;
+      candleIsOut = true;
+      flame.classList.add("flame-off");
+      cakeScene.classList.add("is-wish-made");
+      wishMessage.classList.remove("hidden");
+      relightButton.classList.remove("hidden");
+      micStatus.textContent = "Lilin sudah padam. Semoga semua harapan baikmu menemukan jalannya. ♡";
+
+      // Putar lagu Shape of My Heart otomatis tepat saat lilin padam
+      playMusic();
+
+      // Animasi perayaan kembang api confetti & emoji super meriah!
+      triggerGrandCelebration();
+
+      stopMicrophone();
+    }
+
+    function relightCandle() {
+      candleIsOut = false;
+      flame.classList.remove("flame-off");
+      cakeScene.classList.remove("is-wish-made");
+      wishMessage.classList.add("hidden");
+      relightButton.classList.add("hidden");
+      micStatus.textContent = "Kamu bisa memakai mikrofon atau tombol manual.";
+      // Jeda lagu jika lilin dinyalakan kembali untuk ditiup lagi
+      pauseMusic();
+    }
+
+    blowButton.addEventListener("click", blowOutCandle);
+    relightButton.addEventListener("click", relightCandle);
+
+    // Web Audio API mendeteksi suara keras dari mikrofon.
+    // Browser biasanya mensyaratkan HTTPS atau localhost dan izin pengguna.
+    async function startMicrophone() {
+      // Matikan lagu terlebih dahulu saat bersiap meniup lilin dengan tiupan / mikrofon
+      pauseMusic();
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        micStatus.textContent = "Mikrofon tidak tersedia di browser ini. Gunakan tombol Tiup Lilin (manual).";
+        return;
+      }
+      try {
+        microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioContextClass();
+        const source = audioContext.createMediaStreamSource(microphoneStream);
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 1024;
+        source.connect(analyser);
+        const samples = new Uint8Array(analyser.fftSize);
+        micStatus.textContent = "Mikrofon aktif — tiup ke arah mikrofon selama sesaat untuk memadamkan lilin.";
+        micButton.textContent = "Mikrofon aktif";
+        micButton.disabled = true;
+        micButton.classList.add("opacity-60", "cursor-not-allowed");
+
+        let loudFrames = 0;
+        const checkVolume = () => {
+          if (!analyser || candleIsOut) return;
+          analyser.getByteTimeDomainData(samples);
+          let sum = 0;
+          for (let i = 0; i < samples.length; i++) {
+            const normalized = (samples[i] - 128) / 128;
+            sum += normalized * normalized;
+          }
+          const rms = Math.sqrt(sum / samples.length);
+          // Ambang suara bisa disesuaikan: angka lebih rendah = lebih sensitif.
+          if (rms > 0.19) loudFrames++;
+          else loudFrames = Math.max(0, loudFrames - 1);
+          if (loudFrames >= 3) {
+            blowOutCandle();
+            return;
+          }
+          micAnimationId = requestAnimationFrame(checkVolume);
+        };
+        checkVolume();
+      } catch (error) {
+        micStatus.textContent = "Izin mikrofon tidak diberikan atau tidak tersedia. Kamu tetap bisa memakai tombol manual.";
+        stopMicrophone();
+      }
+    }
+
+    function stopMicrophone() {
+      if (micAnimationId) cancelAnimationFrame(micAnimationId);
+      micAnimationId = null;
+      if (microphoneStream) {
+        microphoneStream.getTracks().forEach(track => track.stop());
+        microphoneStream = null;
+      }
+      if (audioContext && audioContext.state !== "closed") audioContext.close();
+      audioContext = null;
+      analyser = null;
+      micButton.disabled = false;
+      micButton.classList.remove("opacity-60", "cursor-not-allowed");
+      micButton.innerHTML = '<span aria-hidden="true">♬</span> Gunakan mikrofon';
+    }
+
+    micButton.addEventListener("click", startMicrophone);
+
+    // Amplop: klik sekali untuk membuka, klik lagi untuk menutup.
+    const envelopeButton = document.getElementById("envelopeButton");
+    const envelopeHint = document.getElementById("envelopeHint");
+    envelopeButton.addEventListener("click", () => {
+      const isOpen = envelopeButton.classList.toggle("is-open");
+      envelopeButton.setAttribute("aria-expanded", String(isOpen));
+      envelopeHint.textContent = isOpen
+        ? "Surat kecil ini khusus untukmu ♡"
+        : "Klik amplopnya untuk membuka surat ♡";
+    });
+
+    // ==========================================================
+    // PEMUTAR AUDIO / MUSIK (Shape of My Heart - Sting)
+    // Otomatis streaming langsung dari sumber online tanpa input manual
+    // ==========================================================
+    const bgMusic = document.getElementById("bgMusic");
+    const musicPlayer = document.getElementById("musicPlayer");
+    const musicDisc = document.getElementById("musicDisc");
+    const musicToggleBtn = document.getElementById("musicToggleBtn");
+    const playIcon = document.getElementById("playIcon");
+    const pauseIcon = document.getElementById("pauseIcon");
+    const musicStatusText = document.getElementById("musicStatusText");
+    const musicInfoBtn = document.getElementById("musicInfoBtn");
+    let isMusicPlaying = false;
+    let ytPlayer = null;
+    let ytReady = false;
+
+    // Muat YouTube Iframe API untuk streaming lagu Shape of My Heart
+    const ytScript = document.createElement("script");
+    ytScript.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(ytScript);
+
+    window.onYouTubeIframeAPIReady = function () {
+      ytPlayer = new YT.Player("ytPlayer", {
+        height: "100",
+        width: "100",
+        videoId: "V1Pl8CzNzCw", // Sting - Shape of My Heart
+        playerVars: {
+          autoplay: 0,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          loop: 1,
+          playlist: "V1Pl8CzNzCw",
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0
+        },
+        events: {
+          onReady: () => {
+            ytReady = true;
+          },
+          onStateChange: (event) => {
+            if (event.data === YT.PlayerState.PLAYING) {
+              updateMusicUI(true);
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+              if (!bgMusic || bgMusic.paused) {
+                updateMusicUI(false);
+              }
+            }
+          }
+        }
+      });
+    };
+
+    function updateMusicUI(playing) {
+      isMusicPlaying = playing;
+      if (playing) {
+        musicPlayer.classList.add("is-playing");
+        musicDisc.classList.remove("music-disc-paused");
+        musicDisc.classList.add("music-disc-spinning");
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+        musicStatusText.textContent = "Shape of My Heart ♡";
+      } else {
+        musicPlayer.classList.remove("is-playing");
+        musicDisc.classList.remove("music-disc-spinning");
+        musicDisc.classList.add("music-disc-paused");
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+        musicStatusText.textContent = "Sting ♡ Klik untuk putar";
+      }
+    }
+
+    async function playMusic() {
+      // 1. Coba putar dari audio stream online / lokal terlebih dahulu
+      if (bgMusic) {
+        try {
+          await bgMusic.play();
+          updateMusicUI(true);
+          return;
+        } catch (e) {
+          // Lanjut ke YouTube stream jika audio tag dicegah browser
+        }
+      }
+
+      // 2. Putar langsung dari stream YouTube
+      if (ytPlayer && ytReady && typeof ytPlayer.playVideo === "function") {
+        try {
+          ytPlayer.playVideo();
+          updateMusicUI(true);
+          return;
+        } catch (e) {
+          console.log("YouTube stream error:", e);
+        }
+      }
+
+      updateMusicUI(true);
+    }
+
+    function pauseMusic() {
+      if (bgMusic) {
+        try { bgMusic.pause(); } catch (e) { }
+      }
+      if (ytPlayer && ytReady && typeof ytPlayer.pauseVideo === "function") {
+        try { ytPlayer.pauseVideo(); } catch (e) { }
+      }
+      updateMusicUI(false);
+    }
+
+    function toggleMusic() {
+      if (isMusicPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    }
+
+    musicToggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
+
+    musicInfoBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleMusic();
+    });
+  </script>
+</body>
+
+</html>
