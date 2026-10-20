@@ -682,10 +682,7 @@
   </aside>
 
   <!-- Elemen Audio Utama (File shape-of-my-heart.mp3 lokal langsung, dioptimalkan untuk HP & Deploy) -->
-  <audio id="bgMusic" preload="auto" loop playsinline webkit-playsinline>
-    <source src="shape-of-my-heart.mp3" type="audio/mpeg">
-    <source src="./shape-of-my-heart.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="bgMusic" src="shape-of-my-heart.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
 
   <script>
     // ==========================================================
@@ -1029,12 +1026,7 @@
     if (bgMusic) {
       bgMusic.loop = true;
       bgMusic.addEventListener("play", () => updateMusicUI(true));
-      bgMusic.addEventListener("playing", () => updateMusicUI(true));
       bgMusic.addEventListener("pause", () => updateMusicUI(false));
-      bgMusic.addEventListener("ended", () => {
-        bgMusic.currentTime = 0;
-        bgMusic.play().catch(() => updateMusicUI(false));
-      });
       bgMusic.addEventListener("error", (e) => {
         console.warn("Gagal memuat file audio:", e);
         updateMusicUI(false);
@@ -1046,10 +1038,8 @@
       if (!bgMusic) return;
       try {
         bgMusic.volume = 1.0;
-        const playPromise = bgMusic.play();
-        if (playPromise !== undefined) {
-          await playPromise;
-        }
+        bgMusic.muted = false;
+        await bgMusic.play();
         updateMusicUI(true);
       } catch (err) {
         console.warn("Pemutaran audio dicegah oleh browser:", err);
@@ -1066,33 +1056,34 @@
       updateMusicUI(false);
     }
 
-    function toggleMusic() {
-      if (!bgMusic) return;
+    // Debounce & Lock untuk mencegah double-trigger / auto-stop di layar sentuh HP
+    let isTogglingMusic = false;
+
+    async function toggleMusic(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      if (isTogglingMusic || !bgMusic) return;
+      isTogglingMusic = true;
+      setTimeout(() => {
+        isTogglingMusic = false;
+      }, 400);
+
+      // Jika mikrofon sedang aktif, hentikan agar speaker HP tidak tertahan mode telepon/rekam
+      if (typeof stopMicrophone === "function" && microphoneStream) {
+        stopMicrophone();
+      }
+
       if (bgMusic.paused) {
-        playMusic();
+        await playMusic();
       } else {
         pauseMusic();
       }
     }
 
-    // Klik tombol play / pause
-    musicToggleBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleMusic();
-    });
-
-    // Klik judul / info musik
-    musicInfoBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleMusic();
-    });
-
-    // Sentuh area widget pemutar musik di mana saja pada layar HP
-    musicPlayer.addEventListener("click", (e) => {
-      if (e.target !== musicToggleBtn && !musicToggleBtn.contains(e.target)) {
-        toggleMusic();
-      }
-    });
+    // Cukup satu event listener tunggal di container utama widget
+    musicPlayer.addEventListener("click", toggleMusic);
   </script>
 </body>
 
