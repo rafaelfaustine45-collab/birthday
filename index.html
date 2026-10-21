@@ -234,62 +234,6 @@
       animation: gentlePulse 2.4s ease-in-out infinite;
     }
 
-    /* ==========================================================
-       FLOATING AUDIO / MUSIC PLAYER WIDGET
-       ========================================================== */
-    @keyframes spinVinyl {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .music-disc-spinning {
-      animation: spinVinyl 6s linear infinite;
-    }
-
-    .music-disc-paused {
-      animation: spinVinyl 6s linear infinite;
-      animation-play-state: paused;
-    }
-
-    @keyframes soundWave {
-
-      0%,
-      100% {
-        height: 4px;
-      }
-
-      50% {
-        height: 16px;
-      }
-    }
-
-    .sound-bar {
-      width: 3px;
-      border-radius: 9999px;
-      background: #b87578;
-      transition: height .2s ease;
-    }
-
-    .is-playing .sound-bar:nth-child(1) {
-      animation: soundWave .75s ease-in-out infinite;
-    }
-
-    .is-playing .sound-bar:nth-child(2) {
-      animation: soundWave .55s ease-in-out infinite .18s;
-    }
-
-    .is-playing .sound-bar:nth-child(3) {
-      animation: soundWave .85s ease-in-out infinite .35s;
-    }
-
-    .is-playing .sound-bar:nth-child(4) {
-      animation: soundWave .65s ease-in-out infinite .1s;
-    }
 
     .envelope {
       position: relative;
@@ -500,7 +444,7 @@
           <div class="mt-7 flex flex-wrap gap-3">
             <button id="micButton"
               class="inline-flex items-center gap-2 rounded-full bg-rose px-5 py-3 text-xs font-semibold text-white shadow-sm transition hover:bg-[#a7666b] focus:outline-none focus:ring-2 focus:ring-rose/40">
-              <span aria-hidden="true">♬</span> Gunakan mikrofon
+              <span aria-hidden="true">🎤</span> Gunakan mikrofon
             </button>
             <button id="blowButton"
               class="rounded-full border border-rose/40 bg-white/40 px-5 py-3 text-xs font-semibold text-ink transition hover:bg-white/70 focus:outline-none focus:ring-2 focus:ring-rose/30">
@@ -633,57 +577,6 @@
     <p class="font-display text-sm italic text-muted">Dibikin dengan tulus, khusus untukmu <span
         class="text-rose">♡</span></p>
   </footer>
-
-  <!-- Widget Pemutar Musik Mengambang Lucu -->
-  <aside id="musicPlayer"
-    class="fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-full border border-pink-200/90 bg-[#FFFDF9]/95 px-3.5 py-2.5 shadow-[0_10px_30px_rgba(255,158,181,0.35)] backdrop-blur-md transition-all duration-300 hover:shadow-[0_14px_38px_rgba(255,143,163,0.45)] sm:px-4 sm:py-3 cursor-pointer select-none">
-    <!-- Ikon Piringan Hitam Vinyl dengan Hiasan Hati -->
-    <div
-      class="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-tr from-[#2d1b22] to-[#4a2e36] p-1 shadow-sm sm:h-11 sm:w-11">
-      <div id="musicDisc"
-        class="music-disc-paused flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-[#1c1215]">
-        <div class="flex h-4 w-4 items-center justify-center rounded-full bg-rose text-[9px] text-white shadow-inner">
-          ♡
-        </div>
-      </div>
-      <!-- Badge Not Musik Kecil -->
-      <span
-        class="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-pink-400 text-[10px] text-white shadow-xs">
-        ♪
-      </span>
-    </div>
-
-    <!-- Info Lagu -->
-    <div class="flex flex-col text-left pr-1 cursor-pointer select-none" id="musicInfoBtn">
-      <div class="flex items-center gap-1.5">
-        <span class="max-w-[130px] truncate text-xs font-semibold text-ink sm:max-w-[160px]">
-          Shape of My Heart
-        </span>
-        <!-- Animasi Bar Gelombang Suara -->
-        <div id="soundBars" class="flex h-4 items-end gap-[2px]">
-          <span class="sound-bar h-1"></span>
-          <span class="sound-bar h-2"></span>
-          <span class="sound-bar h-1.5"></span>
-          <span class="sound-bar h-1"></span>
-        </div>
-      </div>
-      <span id="musicStatusText" class="text-[10px] text-rose font-medium">
-        Sting ♡ Klik untuk putar
-      </span>
-    </div>
-
-    <!-- Tombol Putar / Jeda -->
-    <button id="musicToggleBtn"
-      class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-rose to-[#d28b8b] text-white shadow-sm transition hover:scale-105 hover:brightness-105 active:scale-95"
-      aria-label="Putar atau jeda musik" title="Putar / Jeda musik">
-      <span id="playIcon" class="ml-0.5 text-xs">▶</span>
-      <span id="pauseIcon" class="hidden text-xs">❚❚</span>
-    </button>
-  </aside>
-
-  <!-- Elemen Audio Utama (File shape-of-my-heart.mp3 lokal langsung, dioptimalkan untuk HP & Deploy) -->
-  <audio id="bgMusic" src="shape-of-my-heart.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
-
   <script>
     // ==========================================================
     // GALERI: ubah src dengan URL foto kalian, lalu edit caption.
@@ -975,7 +868,7 @@
       analyser = null;
       micButton.disabled = false;
       micButton.classList.remove("opacity-60", "cursor-not-allowed");
-      micButton.innerHTML = '<span aria-hidden="true">♬</span> Gunakan mikrofon';
+      micButton.innerHTML = '<span aria-hidden="true">🎤</span> Gunakan mikrofon';
     }
 
     micButton.addEventListener("click", startMicrophone);
@@ -991,99 +884,6 @@
         : "Klik amplopnya untuk membuka surat ♡";
     });
 
-    // ==========================================================
-    // PEMUTAR AUDIO / MUSIK (Shape of My Heart - Sting)
-    // Dioptimalkan untuk HP (iOS & Android) dan Web Deploy
-    // ==========================================================
-    const bgMusic = document.getElementById("bgMusic");
-    const musicPlayer = document.getElementById("musicPlayer");
-    const musicDisc = document.getElementById("musicDisc");
-    const musicToggleBtn = document.getElementById("musicToggleBtn");
-    const playIcon = document.getElementById("playIcon");
-    const pauseIcon = document.getElementById("pauseIcon");
-    const musicStatusText = document.getElementById("musicStatusText");
-    const musicInfoBtn = document.getElementById("musicInfoBtn");
-
-    function updateMusicUI(playing) {
-      if (playing) {
-        musicPlayer.classList.add("is-playing");
-        musicDisc.classList.remove("music-disc-paused");
-        musicDisc.classList.add("music-disc-spinning");
-        playIcon.classList.add("hidden");
-        pauseIcon.classList.remove("hidden");
-        musicStatusText.textContent = "Shape of My Heart ♡";
-      } else {
-        musicPlayer.classList.remove("is-playing");
-        musicDisc.classList.remove("music-disc-spinning");
-        musicDisc.classList.add("music-disc-paused");
-        playIcon.classList.remove("hidden");
-        pauseIcon.classList.add("hidden");
-        musicStatusText.textContent = "Sting ♡ Klik untuk putar";
-      }
-    }
-
-    // Sinkronisasi status UI dengan status asli audio
-    if (bgMusic) {
-      bgMusic.loop = true;
-      bgMusic.addEventListener("play", () => updateMusicUI(true));
-      bgMusic.addEventListener("pause", () => updateMusicUI(false));
-      bgMusic.addEventListener("error", (e) => {
-        console.warn("Gagal memuat file audio:", e);
-        updateMusicUI(false);
-        musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
-      });
-    }
-
-    async function playMusic() {
-      if (!bgMusic) return;
-      try {
-        bgMusic.volume = 1.0;
-        bgMusic.muted = false;
-        await bgMusic.play();
-        updateMusicUI(true);
-      } catch (err) {
-        console.warn("Pemutaran audio dicegah oleh browser:", err);
-        updateMusicUI(false);
-        musicStatusText.textContent = "Ketuk untuk putar musik 🎵";
-      }
-    }
-
-    function pauseMusic() {
-      if (!bgMusic) return;
-      try {
-        bgMusic.pause();
-      } catch (e) {}
-      updateMusicUI(false);
-    }
-
-    // Debounce & Lock untuk mencegah double-trigger / auto-stop di layar sentuh HP
-    let isTogglingMusic = false;
-
-    async function toggleMusic(e) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      if (isTogglingMusic || !bgMusic) return;
-      isTogglingMusic = true;
-      setTimeout(() => {
-        isTogglingMusic = false;
-      }, 400);
-
-      // Jika mikrofon sedang aktif, hentikan agar speaker HP tidak tertahan mode telepon/rekam
-      if (typeof stopMicrophone === "function" && microphoneStream) {
-        stopMicrophone();
-      }
-
-      if (bgMusic.paused) {
-        await playMusic();
-      } else {
-        pauseMusic();
-      }
-    }
-
-    // Cukup satu event listener tunggal di container utama widget
-    musicPlayer.addEventListener("click", toggleMusic);
   </script>
 </body>
 
